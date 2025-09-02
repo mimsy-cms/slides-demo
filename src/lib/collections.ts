@@ -1,49 +1,26 @@
+import { collection, fields } from '@mimsy-cms/sdk';
 
-import { collection, fields, builtins, type Collection } from "@mimsy-cms/sdk";
-
-export const Tags: Collection<any> = collection("tags", {
-  name: fields.shortString({
-    description: "The name of the tag",
-    constraints: {
-      minLength: 2,
-      maxLength: 50,
-    },
-  }),
-  color: fields.shortString({
-    description: "The color of the tag, in hexadecimal format",
-    constraints: {
-      minLength: 6,
-      maxLength: 6,
-    },
-  }),
-});
-
-export const Posts: Collection<any> = collection("posts", {
-  title: fields.shortString({
-    description: "The title of the post",
-    constraints: {
-      minLength: 5,
-      maxLength: 100,
-    },
-  }),
-  author: fields.relation({
-    description: "The author of the post",
-    relatesTo: builtins.User,
-    constraints: {
-      required: true,
-    },
-  }),
-  tags: fields.multiRelation({
-    description: "The tags associated with the post",
-    relatesTo: Tags,
-    constraints: {
-      required: true,
-    },
-  }),
-  coverImage: fields.media({
-    description: "The cover image of the post",
-    constraints: {
-      required: true,
-    },
-  }),
+export const Slides = collection('slides', {
+	order: fields.number({
+		description:
+			'The order of the slide (the number of the slide). Please ensure that the order is unique and sequential.'
+	}),
+	title: fields.shortString({
+		description: 'The title of the slide',
+		constraints: {
+			maxLength: 100
+		}
+	}),
+	content: fields.shortString({
+		description: 'The content of the slide',
+		constraints: {
+			maxLength: 1000
+		}
+	}),
+	image: fields.media({
+		description: 'The image of the slide',
+		constraints: {
+			required: false
+		}
+	})
 });

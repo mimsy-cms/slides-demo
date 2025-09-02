@@ -1,71 +1,39 @@
 {
   "collections": [
     {
-      "name": "tags",
+      "name": "slides",
       "schema": {
-        "name": {
-          "type": "string",
+        "order": {
+          "type": "number",
           "options": {
-            "description": "The name of the tag",
-            "constraints": {
-              "minLength": 2,
-              "maxLength": 50
-            }
+            "description": "The order of the slide (the number of the slide). Please ensure that the order is unique and sequential."
           }
         },
-        "color": {
-          "type": "string",
-          "options": {
-            "description": "The color of the tag, in hexadecimal format",
-            "constraints": {
-              "minLength": 6,
-              "maxLength": 6
-            }
-          }
-        }
-      },
-      "isGlobal": false
-    },
-    {
-      "name": "posts",
-      "schema": {
         "title": {
           "type": "string",
           "options": {
-            "description": "The title of the post",
+            "description": "The title of the slide",
             "constraints": {
-              "minLength": 5,
               "maxLength": 100
             }
           }
         },
-        "author": {
-          "type": "relation",
-          "relatesTo": "User",
+        "content": {
+          "type": "string",
           "options": {
-            "description": "The author of the post",
+            "description": "The content of the slide",
             "constraints": {
-              "required": true
+              "maxLength": 1000
             }
           }
         },
-        "tags": {
-          "type": "multi_relation",
-          "relatesTo": "tags",
-          "options": {
-            "description": "The tags associated with the post",
-            "constraints": {
-              "required": true
-            }
-          }
-        },
-        "coverImage": {
+        "image": {
           "type": "relation",
-          "relatesTo": "Media",
+          "relatesTo": "<builtins.media>",
           "options": {
-            "description": "The cover image of the post",
+            "description": "The image of the slide",
             "constraints": {
-              "required": true
+              "required": false
             }
           }
         }
@@ -73,5 +41,5 @@
       "isGlobal": false
     }
   ],
-  "generatedAt": "2025-08-25T10:00:26.835Z"
+  "generatedAt": "2025-09-02T07:35:36.741Z"
 }
