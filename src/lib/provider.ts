@@ -20,7 +20,8 @@ export async function getSlides(): Promise<Presentation> {
 						title: slide.title,
 						content: slide.content,
 						order: slide.order,
-						image: ((await api.fetchRelation(slide.image)) as builtins.MediaValue).url
+						image: ((await api.fetchRelation(slide.image)) as builtins.MediaValue).url,
+						type: slide.type
 					};
 				})
 			)
