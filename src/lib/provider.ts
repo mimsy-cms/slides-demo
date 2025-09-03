@@ -1,6 +1,6 @@
 import { Slides } from './collections';
 import type { Presentation } from './types/slides';
-import { MimsyClient } from '@mimsy-cms/sdk';
+import { MimsyClient, builtins } from '@mimsy-cms/sdk';
 export async function getSlides(): Promise<Presentation> {
 	const api = new MimsyClient('https://cms.mimsy.kodai.ch/api');
 	try {
@@ -12,15 +12,18 @@ export async function getSlides(): Promise<Presentation> {
 		const presentation: Presentation = {
 			id: 'mimsy-presentation',
 			title: 'Mimsy Presentation',
-			slides: slides.map((slide) => {
-				return {
-					// eslint-disable-next-line @typescript-eslint/no-explicit-any
-					id: (slide as any)['id'],
-					title: slide.title,
-					content: slide.content,
-					order: slide.order
-				};
-			})
+			slides: await Promise.all(
+				slides.map(async (slide) => {
+					return {
+						// eslint-disable-next-line @typescript-eslint/no-explicit-any
+						id: (slide as any)['id'],
+						title: slide.title,
+						content: slide.content,
+						order: slide.order,
+						image: ((await api.fetchRelation(slide.image)) as builtins.MediaValue).url
+					};
+				})
+			)
 		};
 
 		return presentation;
