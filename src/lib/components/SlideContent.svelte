@@ -18,11 +18,10 @@
 	const renderer = new marked.Renderer();
 
 	// Custom code block renderer with Prism highlighting
-	renderer.code = function (code: any, infoString?: any, escaped?: any) {
+	renderer.code = function (code) {
 		// Handle both string and object formats
 		const codeStr = typeof code === 'object' && code?.text ? code.text : String(code || '');
-		const lang =
-			typeof code === 'object' && code?.lang ? code.lang : String(infoString || 'typescript');
+		const lang = typeof code === 'object' && code?.lang ? code.lang : 'typescript';
 
 		try {
 			const highlighted = Prism.highlight(
