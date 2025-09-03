@@ -22,5 +22,11 @@ export const Slides = collection('slides', {
 		constraints: {
 			required: false
 		}
+	}),
+	type: fields.shortString({
+		description: 'The type of the slide',
+		constraints: {
+			required: false
+		}
 	})
 });

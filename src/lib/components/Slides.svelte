@@ -18,11 +18,28 @@
 	const currentSlide = $derived(presentation.slides[currentSlideIndex]);
 	const progress = $derived(((currentSlideIndex + 1) / totalSlides) * 100);
 
+	function updateUrlHash(index: number) {
+		const slideNumber = index + 1;
+		history.replaceState(null, '', `#slide-${slideNumber}`);
+	}
+
+	function getSlideIndexFromHash(): number {
+		const hash = window.location.hash;
+		if (hash && hash.startsWith('#slide-')) {
+			const slideNumber = parseInt(hash.replace('#slide-', ''), 10);
+			if (!isNaN(slideNumber) && slideNumber > 0 && slideNumber <= totalSlides) {
+				return slideNumber - 1;
+			}
+		}
+		return 0;
+	}
+
 	function nextSlide() {
 		if (currentSlideIndex < totalSlides - 1 && !isTransitioning) {
 			isTransitioning = true;
 			setTimeout(() => {
 				currentSlideIndex++;
+				updateUrlHash(currentSlideIndex);
 				isTransitioning = false;
 			}, 150);
 		}
@@ -33,6 +50,7 @@
 			isTransitioning = true;
 			setTimeout(() => {
 				currentSlideIndex--;
+				updateUrlHash(currentSlideIndex);
 				isTransitioning = false;
 			}, 150);
 		}
@@ -43,6 +61,7 @@
 			isTransitioning = true;
 			setTimeout(() => {
 				currentSlideIndex = index;
+				updateUrlHash(currentSlideIndex);
 				isTransitioning = false;
 			}, 150);
 		}
@@ -93,8 +112,21 @@
 		}
 	}
 
+	function handleHashChange() {
+		const newIndex = getSlideIndexFromHash();
+		if (newIndex !== currentSlideIndex && !isTransitioning) {
+			currentSlideIndex = newIndex;
+		}
+	}
+
 	onMount(() => {
+		// Set initial slide from hash
+		const initialIndex = getSlideIndexFromHash();
+		currentSlideIndex = initialIndex;
+		updateUrlHash(currentSlideIndex);
+
 		window.addEventListener('keydown', handleKeydown);
+		window.addEventListener('hashchange', handleHashChange);
 		// Initialize mouse position
 		window.addEventListener(
 			'mousemove',
@@ -109,6 +141,7 @@
 		showControlsTemporarily(); // Show controls initially
 		return () => {
 			window.removeEventListener('keydown', handleKeydown);
+			window.removeEventListener('hashchange', handleHashChange);
 			clearTimeout(hideTimeout);
 		};
 	});
@@ -134,7 +167,7 @@
 			class:opacity-50={isTransitioning}
 			class:scale-95={isTransitioning}
 		>
-			<SlideContent slide={currentSlide} />
+			<SlideContent slide={currentSlide} slideIndex={currentSlideIndex} />
 		</div>
 	</div>
 

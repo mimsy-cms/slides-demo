@@ -3,6 +3,7 @@ export interface Slide {
 	title: string;
 	content: string;
 	image?: string;
+	type?: string;
 }
 
 export interface Presentation {
