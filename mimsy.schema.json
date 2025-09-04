@@ -19,7 +19,7 @@
           }
         },
         "content": {
-          "type": "string",
+          "type": "long_string",
           "options": {
             "description": "The content of the slide",
             "constraints": {
@@ -50,5 +50,5 @@
       "isGlobal": false
     }
   ],
-  "generatedAt": "2025-09-03T11:37:57.086Z"
+  "generatedAt": "2025-09-04T05:50:14.202Z"
 }

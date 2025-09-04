@@ -11,7 +11,7 @@ export const Slides = collection('slides', {
 			maxLength: 100
 		}
 	}),
-	content: fields.shortString({
+	content: fields.longString({
 		description: 'The content of the slide',
 		constraints: {
 			maxLength: 1000

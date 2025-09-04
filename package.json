@@ -43,7 +43,7 @@
 		]
 	},
 	"dependencies": {
-		"@mimsy-cms/sdk": "^1.2.1",
+		"@mimsy-cms/sdk": "^1.3.0",
 		"@types/prismjs": "^1.26.5",
 		"marked": "^16.2.1",
 		"prismjs": "^1.30.0"
